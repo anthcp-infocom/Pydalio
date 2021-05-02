@@ -21,11 +21,14 @@ class RouteTargetReference(BaseModel):
         ...,
         description='name of the service/target that is being referred to. e.g. name of the service',
     )
-    weight: int = Field(
-        ...,
-        description="weight as an integer between 0 and 256, default 1, that specifies the target's relative weight against other target reference objects. 0 suppresses requests to this backend.",
+    # weight: int = Field(
+    #     ...,
+    #     description="weight as an integer between 0 and 256, default 1, that specifies the target's relative weight against other target reference objects. 0 suppresses requests to this backend.",
+    # )
+    weight: Optional[int] = Field(
+        None,
+        description="weight as an integer between 0 and 256, default 100, that specifies the target's relative weight against other target reference objects. 0 suppresses requests to this backend.",
     )
-
 
 class TLSConfig(BaseModel):
     caCertificate: Optional[str] = Field(
@@ -148,8 +151,11 @@ class Route(BaseModel):
         None, description='Standard object metadata.'
     )
     spec: RouteSpec = Field(..., description='spec is the desired state of the route')
-    status: RouteStatus = Field(
-        ..., description='status is the current state of the route'
+    # status: RouteStatus = Field(
+    #     ..., description='status is the current state of the route'
+    #)
+    status: Optional[RouteStatus] = Field(
+        None, description='status is the current state of the route'
     )
 
 

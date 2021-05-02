@@ -124,7 +124,7 @@ version = 'v1'
 get_modules_in_package('oc311', version)
 
 try:
-    to = RouteTargetReference(kind = 'Service', name = 'fred', weight = 1)
+    to = RouteTargetReference(kind = 'Service', name = 'fred')
 except ValidationError as e:
     print(e.json())
 
@@ -134,12 +134,12 @@ except ValidationError as e:
     print(e.json())
 
 try:
-    x = Route(apiVersion = 'v1', kind = 'Route', spec = routespec, status={})
+    x = Route(apiVersion = 'v1', kind = 'Route', spec = routespec )
 except ValidationError as e:
     print(e.json())
 
-# print (get_json(x))
-# print (get_yaml(x))
+print (get_json(x))
+print (get_yaml(x))
 
 # y = load_yaml('examples/test_route.yaml')
 # try:
