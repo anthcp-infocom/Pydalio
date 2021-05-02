@@ -12,6 +12,7 @@ import importlib, inspect, pkgutil
 from importlib import import_module
 from pkgutil import iter_modules, walk_packages
 from pathlib import Path
+from functools import partial
 
 import oc311
 
@@ -120,23 +121,37 @@ def load_full_yaml(filename):
                 docs.append(my_class)
     return docs
 
+def validate(f):
+    try:
+        x = f()
+    except ValidationError as e:
+        print(e.json())
+    return x
+
 version = 'v1'
 get_modules_in_package('oc311', version)
 
-try:
-    to = RouteTargetReference(kind = 'Service', name = 'fred')
-except ValidationError as e:
-    print(e.json())
+to = validate(partial(RouteTargetReference, kind = 'Service', name = 'fred'))
+print (get_yaml(to))
 
-try:
-    routespec = RouteSpec(host = 'hello', to = to )
-except ValidationError as e:
-    print(e.json())
+# try:
+#     to = RouteTargetReference(kind = 'Service', name = 'fred')
+# except ValidationError as e:
+#     print(e.json())
 
-try:
-    x = Route(apiVersion = 'v1', kind = 'Route', spec = routespec )
-except ValidationError as e:
-    print(e.json())
+routespec = validate(partial(RouteSpec, host = 'hello', to = to ))
+
+# try:
+#     routespec = RouteSpec(host = 'hello', to = to )
+# except ValidationError as e:
+#     print(e.json())
+
+x = validate(partial(Route, apiVersion = 'v1', kind = 'Route', spec = routespec ))
+
+# try:
+#     x = Route(apiVersion = 'v1', kind = 'Route', spec = routespec )
+# except ValidationError as e:
+#     print(e.json())
 
 print (get_json(x))
 print (get_yaml(x))
