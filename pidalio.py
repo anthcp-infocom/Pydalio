@@ -116,7 +116,8 @@ def load_full_yaml(filename):
                 my_class = locate(class_path + '.' + class_type).parse_obj(doc)
             except ValidationError as e:
                 print(e.json())
-            docs.append(my_class)
+            else:
+                docs.append(my_class)
     return docs
 
 version = 'v1'
@@ -133,7 +134,7 @@ except ValidationError as e:
     print(e.json())
 
 try:
-    x = Route(apiVersion = 'v1', kind = 'Route', spec = routespec, status='unknown')
+    x = Route(apiVersion = 'v1', kind = 'Route', spec = routespec, status={})
 except ValidationError as e:
     print(e.json())
 
