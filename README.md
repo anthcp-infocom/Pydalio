@@ -8,6 +8,6 @@ This code supports OpenShift YAML validation but the source openapi info for Ope
 
 There is no reason why it could be used on K8s alone but my focus at the moment is OpenShift 3.11 & 4.6.
 
-Anthony Percy, 
-Technical Director
+Anthony, 
+Technical Director,
 Info-com Systems Pty Ltd
