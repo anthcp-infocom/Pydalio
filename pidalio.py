@@ -35,31 +35,13 @@ from importlib import import_module
 from pkgutil import iter_modules, walk_packages
 from pathlib import Path
 from functools import partial
+from inspect import isclass
 
 import oc311
 
-
-# globals()['modules'] = {}
-
-# # iterate through the modules in the current package
-# #package_dir = Path(__file__).resolve().parent
-# for root, dirs, files in os.walk('model'):
-#         for diry in dirs:
-#             dirpath = os.path.join(root, diry)
-#             for (_, module_name, _) in iter_modules([dirpath]):
-#                 module_path = dirpath.replace('/','.') + '.' + module_name
-#                 print (module_path, module_name)
-#                 try:
-#                     globals()['modules'][module_path] = import_module(module_path)
-#                 except:
-#                     pass
-
-allowable_modules = ['oc311.com.github.openshift.api.', 'oc311.io.k8s.api.']
-reject_class = ['BaseModel', 'Event', 'TokenRequest']
-mod_oc_reg = {}
-mod_k8_reg = {}
-
 def get_modules_in_package(package_name: str, version: str):
+    allowable_modules = ['oc311.com.github.openshift.api.', 'oc311.io.k8s.']
+    reject_class = ['BaseModel', 'Event', 'TokenRequest']
     for root, dirs, files in os.walk(package_name):
         for filename in files:
             # print(os.path.join(root, filename))
@@ -67,30 +49,18 @@ def get_modules_in_package(package_name: str, version: str):
                 continue
             modname = os.path.join(root, filename)[:-3].replace('/','.')
             res = [ele for ele in allowable_modules if(ele in modname )]
-            res_str = "".join(res)
-            if not bool(res):
+            if not bool(res) or not modname:
                 continue
-            if modname:
-                #print(res, filename, modname)
-                try:
-                    liblist = inspect.getmembers(importlib.import_module(modname), inspect.isclass)
-                except:
-                    pass
-                else:
-                    for name in inspect.getmembers(importlib.import_module(modname), inspect.isclass):
-                        #print(name[0], modname)
-                        resA = any(ele in name[0] for ele in reject_class)
-                        if not resA:
-                            if 'openshift' in res_str:
-                                if name[0] not in mod_oc_reg:
-                                    mod_oc_reg[name[0]] = modname
-                                else:
-                                    raise KeyError("Key {} already exists in oc".format(name[0]))
-                            elif 'k8s' in res_str:
-                                if name[0] not in mod_k8_reg:
-                                    mod_k8_reg[name[0]] = modname
-                                else:
-                                    raise KeyError("Key {} already exists in k8s".format(name[0]))
+            try:
+                module = import_module(modname)
+            except:
+                pass
+            else:
+                for attribute_name in dir(module):
+                    attribute = getattr(module, attribute_name)
+                    if isclass(attribute):            
+                        # Add the class to this package's variables
+                        globals()[attribute_name] = attribute
 
     return
             
@@ -128,15 +98,9 @@ def load_full_yaml(filename):
     with open(filename, 'r') as stream:
         for doc in yaml.safe_load_all(stream):
             class_type = doc['kind']
-            if mod_oc_reg.get(class_type):
-                class_path = mod_oc_reg[class_type]
-            elif mod_k8_reg.get(class_type):
-                class_path = mod_k8_reg[class_type]
-            else:
-                print('Class {} not found'.format(class_type))
-                continue
+            class_path = globals()[class_type]
             try:
-                my_class = locate(class_path + '.' + class_type).parse_obj(doc)
+                my_class = globals()[class_type].parse_obj(doc)
             except ValidationError as e:
                 print(e.json())
             else:
@@ -156,24 +120,9 @@ get_modules_in_package('oc311', version)
 to = validate(partial(RouteTargetReference, kind = 'Service', name = 'fred'))
 print (get_yaml(to))
 
-# try:
-#     to = RouteTargetReference(kind = 'Service', name = 'fred')
-# except ValidationError as e:
-#     print(e.json())
-
 routespec = validate(partial(RouteSpec, host = 'hello', to = to ))
 
-# try:
-#     routespec = RouteSpec(host = 'hello', to = to )
-# except ValidationError as e:
-#     print(e.json())
-
 x = validate(partial(Route, apiVersion = 'v1', kind = 'Route', spec = routespec ))
-
-# try:
-#     x = Route(apiVersion = 'v1', kind = 'Route', spec = routespec )
-# except ValidationError as e:
-#     print(e.json())
 
 print (get_json(x))
 print (get_yaml(x))
