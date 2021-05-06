@@ -35,9 +35,11 @@ from inspect import isclass
 version = 'v1'
 allowable_modules = ['oc311.com.github.openshift.api.', 'oc311.io.k8s.']
 reject_class = ['BaseModel', 'Event', 'TokenRequest']
+accept_files = [version +'.', 'resource.', 'intstr.']
 for root, dirs, files in os.walk('oc311'):
     for filename in files:
-        if filename == '__init__.py' or filename[-3:] != '.py' or filename.find(version + '.'):
+        # if filename == '__init__.py' or filename[-3:] != '.py' or filename.find(version + '.'):
+        if filename == '__init__.py' or filename[-3:] != '.py' or not [ele for ele in accept_files if(ele in filename )]:
             continue
         modname = os.path.join(root, filename)[:-3].replace('/','.')
         res = [ele for ele in allowable_modules if(ele in modname )]

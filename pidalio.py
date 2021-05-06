@@ -29,35 +29,8 @@ from pathlib import Path
 from functools import partial
 
 from oc311.v1 import *
+from generate import *
       
-
-def get_yaml(obj):
-    return yaml.dump(obj.dict(exclude_none=True))
-
-def get_json(obj):
-    return obj.json(exclude_none=True)
-
-def load_yaml(filename):
-    with open(filename, 'r') as stream:
-        try:
-            x = yaml.safe_load(stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-        print(x)
-    return x
-
-def load_yaml_all(filename):
-    with open(filename, 'r') as stream:
-        try:
-            x = yaml.safe_load_all(stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-        print(x)
-    return x
-
-def get_obj_src(x):
-    return repr(x)
- 
 
 def load_full_yaml(filename):
     docs = []
@@ -72,13 +45,6 @@ def load_full_yaml(filename):
             else:
                 docs.append(my_class)
     return docs
-
-def validate(f):
-    try:
-        x = f()
-    except ValidationError as e:
-        print(e.json())
-    return x
 
 
 to = validate(partial(RouteTargetReference, kind = 'Service', name = 'fred'))
