@@ -62,36 +62,14 @@ def get_modules_in_package(package_name: str, version: str):
                         # Add the class to this package's variables
                         globals()[attribute_name] = attribute
 
+<<<<<<< HEAD
     return
             
-
-def get_yaml(obj):
-    return yaml.dump(obj.dict(exclude_none=True))
-
-def get_json(obj):
-    return obj.json(exclude_none=True)
-
-def load_yaml(filename):
-    with open(filename, 'r') as stream:
-        try:
-            x = yaml.safe_load(stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-        print(x)
-    return x
-
-def load_yaml_all(filename):
-    with open(filename, 'r') as stream:
-        try:
-            x = yaml.safe_load_all(stream)
-        except yaml.YAMLError as exc:
-            print(exc)
-        print(x)
-    return x
-
-def get_obj_src(x):
-    return repr(x)
- 
+=======
+from oc311.v1 import *
+from generate import *
+      
+>>>>>>> ft-mod
 
 def load_full_yaml(filename):
     docs = []
@@ -107,6 +85,7 @@ def load_full_yaml(filename):
                 docs.append(my_class)
     return docs
 
+<<<<<<< HEAD
 def validate(f):
     try:
         x = f()
@@ -116,6 +95,8 @@ def validate(f):
 
 version = 'v1'
 get_modules_in_package('oc311', version)
+=======
+>>>>>>> ft-mod
 
 to = validate(partial(RouteTargetReference, kind = 'Service', name = 'fred'))
 print (get_yaml(to))
