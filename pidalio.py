@@ -37,39 +37,8 @@ from pathlib import Path
 from functools import partial
 from inspect import isclass
 
-import oc311
-
-def get_modules_in_package(package_name: str, version: str):
-    allowable_modules = ['oc311.com.github.openshift.api.', 'oc311.io.k8s.']
-    reject_class = ['BaseModel', 'Event', 'TokenRequest']
-    for root, dirs, files in os.walk(package_name):
-        for filename in files:
-            # print(os.path.join(root, filename))
-            if filename == '__init__.py' or filename[-3:] != '.py' or filename.find(version + '.'):
-                continue
-            modname = os.path.join(root, filename)[:-3].replace('/','.')
-            res = [ele for ele in allowable_modules if(ele in modname )]
-            if not bool(res) or not modname:
-                continue
-            try:
-                module = import_module(modname)
-            except:
-                pass
-            else:
-                for attribute_name in dir(module):
-                    attribute = getattr(module, attribute_name)
-                    if isclass(attribute):            
-                        # Add the class to this package's variables
-                        globals()[attribute_name] = attribute
-
-<<<<<<< HEAD
-    return
-            
-=======
 from oc311.v1 import *
-from generate import *
-      
->>>>>>> ft-mod
+from generate import *   
 
 def load_full_yaml(filename):
     docs = []
@@ -85,18 +54,6 @@ def load_full_yaml(filename):
                 docs.append(my_class)
     return docs
 
-<<<<<<< HEAD
-def validate(f):
-    try:
-        x = f()
-    except ValidationError as e:
-        print(e.json())
-    return x
-
-version = 'v1'
-get_modules_in_package('oc311', version)
-=======
->>>>>>> ft-mod
 
 to = validate(partial(RouteTargetReference, kind = 'Service', name = 'fred'))
 print (get_yaml(to))
