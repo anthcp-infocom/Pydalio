@@ -2,7 +2,7 @@
 
 This code is pre-alpha, started on April 25th 2021 and was inspired by Hikaru and Pulumi.
 
-Having to put up with poor debugging options in Helm, finding out that there was no global variables in go template as used by Helm was the last straw. (this is by design which is fair enough!)
+Having to put up with poor debugging options in Helm, finding out that there was no global variables in go template as used by Helm was the last straw. It appears this is by design (which is fair enough!) e.g its time to use golang instead of go templates..
 
 So I wondered how far Pydantic could be used, and as it turns out has very broad shoulders indeed and now you can code your K8s as python objects...
 
