@@ -1,4 +1,4 @@
-## Pidalio ( Greek for Rudder, following the K8s nautical theme)
+## Pydalio ( pythonic variation on greek word for "rudder", following the K8s nautical theme)
 
 This code is pre-alpha, started on April 25th 2021 and was inspired by Hikaru and Pulumi.
 
