@@ -21,6 +21,7 @@ import yaml
 import importlib, inspect, pkgutil
 from pathlib import Path
 from functools import partial
+from devtools import PrettyFormat, pprint, pformat
 
 def load_full_yaml(globals, filename):
     docs = []
@@ -70,4 +71,7 @@ def validate(f):
         x = f()
     except ValidationError as e:
         print(e.json())
-    return x   
+    return x
+
+def objPrettyFormat(obj):
+    return pformat(obj)
