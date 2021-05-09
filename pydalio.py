@@ -45,7 +45,7 @@ print (get_yaml(r))
 # This shows how to print the Openshift Object source so you can get the python object creation "code"
 print (get_obj_src(r))
 
-# load_full_yaml() will parse a single pyaml file with multiple objects separated by "---""
+# load_full_yaml() will parse a single yaml file with multiple objects separated by "---""
 # docs = load_full_yaml('examples/multi-ext.yaml')
 docs = load_full_yaml(globals(),'examples/Pod.yml')
 # docs = load_full_yaml('examples/test_route.yaml')
