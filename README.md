@@ -11,7 +11,7 @@ So I wondered how far Python and Pydantic could be used, and as it turns out the
 
 This code supports OpenShift YAML "validation" but the source openapi info for OpenShift 3.11 appears to have errors from a validation perspective. e.g OpenShift 3.11 Route object has "status" as not optional. Anyway I have fixed it here and v4.6 is fine.
 
-There is no reason why it could be used on K8s alone but my focus at the moment is OpenShift 3.11 & 4.6 as it pays the bills.
+Will add in K8s versions on demand but my focus at the moment is OpenShift 3.11 & 4.6 as it pays the bills.
 
 I have a few more ideas on Pydalio's development...
 1. Add Openshift K8s Rest code so you can create and delete K8s objects as part of a pipeline.
