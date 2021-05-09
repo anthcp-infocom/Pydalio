@@ -6,6 +6,21 @@ import importlib, inspect, pkgutil
 from pathlib import Path
 from functools import partial
 
+def load_full_yaml(globals, filename):
+    docs = []
+    with open(filename, 'r') as stream:
+        for doc in yaml.safe_load_all(stream):
+            class_type = doc['kind']
+            # class_path = globals()[class_type]
+            class_path = globals[class_type]
+            try:
+                my_class = globals[class_type].parse_obj(doc)
+            except ValidationError as e:
+                print(e.json())
+            else:
+                docs.append(my_class)
+    return docs
+
 
 def get_yaml(obj):
     return yaml.dump(obj.dict(exclude_none=True))
