@@ -5,9 +5,9 @@ Since the idea is to use Python as a devops scripting language ( instead of a pr
 So convert your yamls into python object code and then create a new .py module with your new openshift python objects etc.
 
 Why create Pydalio? Having to put up with poor debugging options in Helm, and finding out that there was no global variables in go template as used by Helm was the last straw. It appears this is by design (which is fair enough!) e.g I guess the golang logic is its time to use golang instead of go templates if you reach this point in Helm...
-Not for me. I decided a long time ago if you cant debug a computer lang by "single stepping", forget it!
+Not for me. I decided a long time ago if you cant debug a computer lang by "single stepping", forget it so goodbye Helm!
 
-So I wondered how far Pythoon and Pydantic could be used, and as it turns out they have very broad shoulders indeed and now you can code your Openshift resources as python objects...
+So I wondered how far Python and Pydantic could be used, and as it turns out they have very broad shoulders indeed and now you can code your Openshift resources as python objects...
 
 This code supports OpenShift YAML "validation" but the source openapi info for OpenShift 3.11 appears to have errors from a validation perspective. e.g OpenShift 3.11 Route object has "status" as not optional. Anyway I have fixed it here and v4.6 is fine.
 
