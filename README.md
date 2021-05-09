@@ -4,8 +4,8 @@ This code is pre-alpha, started on April 25th 2021 and was inspired by Hikaru an
 Since the idea is to use Python as a devops scripting language ( instead of a programming language), I have taken a miminalist offline approach as I dont like the online requirement for Pulumi from a security perspective.
 So convert your yamls into python object code and then create a new .py module with your new openshift python objects etc.
 
-Why create Pydalio? Having to put up with poor debugging options in Helm, and finding out that there was no global variables in go template as used by Helm was the last straw. It appears this is by design (which is fair enough!) e.g I guess the golang logic is its time to use golang instead of go templates if you reach this point in Helm...
-Not for me. I decided a long time ago if you cant debug a computer lang by "single stepping", forget it so goodbye Helm!
+Why create Pydalio? Having to put up with poor debugging options in Helm, and finding out that there was no global variables in go templates as used by Helm was the last straw. It appears this is by design (which is fair enough!) e.g I guess the golang logic is its time to use golang instead of go templates and if you reach this point in Helm its time for a rethink?...
+After expericeing Helms poor debugging and the fact that I decided a long time ago if you cant debug a computer lang by "single stepping", forget it so goodbye Helm!
 
 So I wondered how far Python and Pydantic could be used, and as it turns out they have very broad shoulders indeed and now you can code your Openshift resources as python objects...
 
