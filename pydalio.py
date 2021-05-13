@@ -47,8 +47,9 @@ print (get_obj_src(r))
 
 # load_full_yaml() will parse a single yaml file with multiple objects separated by "---""
 # docs = load_full_yaml('examples/multi-ext.yaml')
-docs = load_full_yaml(globals(),'examples/Pod.yml')
+# docs = load_full_yaml(globals(),'examples/Pod.yml')
 # docs = load_full_yaml('examples/test_route.yaml')
+docs = load_full_yaml(globals(), 'examples/service.yaml')
 for doc in docs:
     print (get_obj_src(doc))
 for doc in docs:
