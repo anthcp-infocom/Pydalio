@@ -5,7 +5,15 @@
 from __future__ import annotations
 
 from pydantic import BaseModel
+import abc
 
+class IntOrStringABC(abc.ABC): pass
+
+IntOrStringABC.register(int)
+IntOrStringABC.register(str)
 
 class IntOrString(BaseModel):
-    __root__: str
+    __root__: IntOrStringABC
+
+    class Config:
+        arbitrary_types_allowed = True
