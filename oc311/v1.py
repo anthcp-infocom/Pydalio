@@ -28,15 +28,21 @@ from inspect import isclass
 
 
 version = 'v1'
-allowable_modules = ['oc311.com.github.openshift.api.', 'oc311.io.k8s.']
+cwd = os.path.dirname(os.path.realpath(__file__))
+libroot = __name__.split('.')[:-1]
+libroot = '.'.join(libroot)
+
+allowable_modules = [libroot + '.com.github.openshift.api.', libroot + '.io.k8s.']
 reject_class = ['BaseModel', 'Event', 'TokenRequest']
 accept_files = [version +'.', 'resource.', 'intstr.']
-for root, dirs, files in os.walk('oc311'):
+for root, dirs, files in os.walk(cwd):
     for filename in files:
         # if filename == '__init__.py' or filename[-3:] != '.py' or filename.find(version + '.'):
         if filename == '__init__.py' or filename[-3:] != '.py' or not [ele for ele in accept_files if(ele in filename )]:
             continue
-        modname = os.path.join(root, filename)[:-3].replace('/','.')
+        #modname = os.path.join(root, filename)[:-3].replace('/','.')
+        relpath = os.path.relpath(os.path.join(root,filename), cwd)
+        modname = libroot + "." + relpath[:-3].replace(os.path.sep,'.')
         res = [ele for ele in allowable_modules if(ele in modname )]
         if not bool(res) or not modname:
             continue
